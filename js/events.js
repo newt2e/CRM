@@ -319,6 +319,10 @@ document.getElementById('pg').addEventListener('click', function(e) {
   if (t.id==='new-task-btn') { M.task();        return; }
   if (t.id==='new-risk-btn') { M.risk();        return; }
 
+  // ── Account prev / next arrows ──
+  if (t.id === 'acc-prev' && t.dataset.aid) { openAccount(t.dataset.aid); return; }
+  if (t.id === 'acc-next' && t.dataset.aid) { openAccount(t.dataset.aid); return; }
+
   // ── Delete account button ──
   if (t.id==='acc-delete' && CA) { deleteAccount(CA); return; }
 

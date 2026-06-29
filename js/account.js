@@ -130,7 +130,17 @@ function refreshAccount() {
             '</div>' +
           '</div>' +
         '</div>' +
-        '<button id="acc-delete" style="padding:6px 12px;border-radius:8px;border:1.5px solid rgba(214,64,69,.4);background:transparent;color:rgba(214,64,69,.8);font-size:12px;font-weight:600;cursor:pointer">Delete Account</button>' +
+        (function() {
+          var all = visibleAccounts();
+          var idx = all.findIndex(function(x){ return x.id === a.id; });
+          var prev = idx > 0 ? all[idx-1] : null;
+          var next = idx < all.length-1 ? all[idx+1] : null;
+          return '<div style="display:flex;align-items:center;gap:8px">' +
+            '<button id="acc-prev" ' + (prev ? 'data-aid="' + prev.id + '"' : 'disabled') + ' style="width:32px;height:32px;border-radius:8px;border:1.5px solid var(--b2);background:#fff;cursor:' + (prev?'pointer':'default') + ';color:' + (prev?'var(--t1)':'var(--t4)') + ';font-size:16px;display:flex;align-items:center;justify-content:center" title="' + (prev?prev.name:'No previous account') + '">‹</button>' +
+            '<button id="acc-next" ' + (next ? 'data-aid="' + next.id + '"' : 'disabled') + ' style="width:32px;height:32px;border-radius:8px;border:1.5px solid var(--b2);background:#fff;cursor:' + (next?'pointer':'default') + ';color:' + (next?'var(--t1)':'var(--t4)') + ';font-size:16px;display:flex;align-items:center;justify-content:center" title="' + (next?next.name:'No next account') + '">›</button>' +
+            '<button id="acc-delete" style="padding:6px 12px;border-radius:8px;border:1.5px solid rgba(214,64,69,.4);background:transparent;color:rgba(214,64,69,.8);font-size:12px;font-weight:600;cursor:pointer">Delete Account</button>' +
+          '</div>';
+        })() +
       '</div>' +
       '<div class="acc-stat">' +
         [
@@ -316,12 +326,11 @@ function tabContacts(d) {
   return '<button class="btn btn-p" style="margin-bottom:16px" id="a-add-contact"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3v10M3 8h10"/></svg>Add Contact</button>' +
     (d.contacts.length===0 ? '<div class="empty-box"><p>No contacts yet.</p></div>' :
       '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">' +
-        d.contacts.map(function(c, ci) {
+        d.contacts.map(function(c) {
           return '<div class="contact-card">' +
             '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
               '<div style="width:36px;height:36px;border-radius:50%;background:var(--fo);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--nt);flex-shrink:0">' + ini(c.name) + '</div>' +
-              '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:var(--t1)">' + c.name + '</div><div style="font-size:11px;color:var(--t3)">' + c.title + '</div></div>' +
-              '<button class="del-contact btn-sm" data-idx="' + ci + '" style="color:var(--rd);flex-shrink:0" title="Remove contact">✕</button>' +
+              '<div><div style="font-size:13px;font-weight:600;color:var(--t1)">' + c.name + '</div><div style="font-size:11px;color:var(--t3)">' + c.title + '</div></div>' +
             '</div>' +
             (c.email ? '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:12px;color:var(--cr)">' + c.email + '</span><button class="copy-email btn-sm" data-email="' + c.email + '" style="padding:1px 6px;font-size:10px">Copy</button></div>' : '') +
             (c.phone ? '<div style="font-size:12px;color:var(--t3)">' + c.phone + '</div>' : '') +
