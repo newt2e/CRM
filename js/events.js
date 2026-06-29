@@ -632,9 +632,10 @@ function loadAppData() {
 // Auto-save whenever data changes — hook into key write operations
 var _origGo = null; // patched after go() is defined
 
-// Load on boot
+// Boot sequence — ORDER MATTERS:
+// 1. Load registered users first (auth needs them)
+// 2. Load app data (accounts, ADATA, CDATA) before any render
+// 3. Restore session last — this triggers render() which needs data to be loaded
 loadSavedUsers();
-
-// Restore session — auth.js:restoreSession() auto-logs in if session exists
-if (typeof restoreSession === 'function') restoreSession();
 loadAppData();
+if (typeof restoreSession === 'function') restoreSession();
