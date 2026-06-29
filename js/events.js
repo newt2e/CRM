@@ -634,4 +634,7 @@ var _origGo = null; // patched after go() is defined
 
 // Load on boot
 loadSavedUsers();
+
+// Restore session — auth.js:restoreSession() auto-logs in if session exists
+if (typeof restoreSession === 'function') restoreSession();
 loadAppData();

@@ -23,6 +23,9 @@ function clearError(id) {
 }
 function startSession(u) {
   CU = u;
+  // Persist session so page refresh doesn't log the user out
+  try { localStorage.setItem('nexus_session', JSON.stringify(u)); } catch(e) {}
+
   var initials = u.initials || u.name.split(' ').map(function(n){ return n[0]; }).join('').slice(0,2).toUpperCase();
   var roleLabel = {partnership_manager:'Partnership Manager', implementation_engineer:'Implementation Engineer', admin:'Admin', viewer:'Viewer'}[u.role] || u.role;
   document.getElementById('sbav').textContent = initials;
@@ -34,6 +37,20 @@ function startSession(u) {
   document.getElementById('login').classList.remove('active');
   document.getElementById('app').classList.add('active');
   go('dashboard');
+}
+
+// Restore session on page load — called at the bottom of events.js after loadSavedUsers()
+function restoreSession() {
+  try {
+    var saved = localStorage.getItem('nexus_session');
+    if (!saved) return false;
+    var u = JSON.parse(saved);
+    // Verify the user still exists in the registered users list
+    var still = USERS.find(function(x){ return x.email === u.email; });
+    if (!still) { localStorage.removeItem('nexus_session'); return false; }
+    startSession(still);
+    return true;
+  } catch(e) { return false; }
 }
 
 // ── Sign In ────────────────────────────────────────────────────────────────
@@ -194,6 +211,7 @@ document.getElementById('show-signin').addEventListener('click', function() {
 // ── Sign Out ───────────────────────────────────────────────────────────────
 document.getElementById('signout-btn').addEventListener('click', function() {
   CU = null;
+  try { localStorage.removeItem('nexus_session'); } catch(e) {}
   document.getElementById('app').classList.remove('active');
   document.getElementById('login').classList.add('active');
   document.getElementById('lv-register').style.display = 'none';
