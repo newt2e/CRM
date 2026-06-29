@@ -269,10 +269,10 @@ document.getElementById('pg').addEventListener('click', function(e) {
   if (t.id === 'c-add-stakeholder-btn') {
     var ci4 = CINFO[CIS.country];
     M.show('Add Stakeholder — ' + ci4.name, [
-      {id:'name',  label:'Full Name',  placeholder:'e.g. George Goeksel'},
-      {id:'title', label:'Job Title',  placeholder:'e.g. IT Director'},
-      {id:'email', label:'Email',      placeholder:'e.g. george@client.com'},
-      {id:'phone', label:'Phone',      placeholder:'e.g. +49 89 1234 5678'}
+      {id:'name',  label:'Full Name',  placeholder:'Full name'},
+      {id:'title', label:'Job Title',  placeholder:'Job title'},
+      {id:'email', label:'Email',      placeholder:'Email address'},
+      {id:'phone', label:'Phone',      placeholder:'Phone number'}
     ], function() {
       var name = M.v('name');
       if (!name) { alert('Name is required'); return; }
