@@ -269,13 +269,14 @@ var PAGES = {
                   '<button class="btn-sm" id="c-add-stakeholder-btn">+ Add</button>' +
                 '</div>' +
                 (ci.stakeholders && ci.stakeholders.length
-                  ? ci.stakeholders.map(function(s) {
+                  ? ci.stakeholders.map(function(s, si) {
                       return '<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--b1)">' +
                         '<div style="width:28px;height:28px;border-radius:50%;background:var(--fo);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--nt);flex-shrink:0">' + ini(s.name) + '</div>' +
                         '<div style="flex:1;min-width:0">' +
                           '<div style="font-size:13px;font-weight:600;color:var(--t1)">' + s.name + '</div>' +
                           '<div style="font-size:11px;color:var(--t3);display:flex;align-items:center;gap:6px;flex-wrap:wrap">' + (s.title ? s.title : '') + (s.title&&s.email?' · ':'') + (s.email?'<span style="color:var(--cr)">' + s.email + '</span><button class="copy-email btn-sm" data-email="' + s.email + '" style="padding:1px 6px;font-size:10px">Copy</button>':'') + '</div>' +
                         '</div>' +
+                        '<button class="del-stakeholder btn-sm" data-idx="' + si + '" style="color:var(--rd);flex-shrink:0;align-self:center" title="Remove stakeholder">✕</button>' +
                       '</div>';
                     }).join('')
                   : '<div style="font-size:13px;color:var(--t4);font-style:italic">No stakeholders added yet.</div>') +

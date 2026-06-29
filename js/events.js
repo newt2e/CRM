@@ -152,6 +152,28 @@ document.getElementById('pg').addEventListener('click', function(e) {
     return;
   }
 
+  // ── Delete contact ──
+  if (t.classList && t.classList.contains('del-contact')) {
+    var idx = parseInt(t.dataset.idx);
+    var d   = ADATA[CA];
+    if (!d || isNaN(idx)) return;
+    var name = (d.contacts[idx] || {}).name || 'this contact';
+    if (!confirm('Remove ' + name + '?')) return;
+    d.contacts.splice(idx, 1);
+    saveAppData(); refreshAccount(); return;
+  }
+
+  // ── Delete stakeholder ──
+  if (t.classList && t.classList.contains('del-stakeholder')) {
+    var idx = parseInt(t.dataset.idx);
+    var ci  = CINFO[CIS.country];
+    if (!ci || isNaN(idx)) return;
+    var name = (ci.stakeholders[idx] || {}).name || 'this stakeholder';
+    if (!confirm('Remove ' + name + '?')) return;
+    ci.stakeholders.splice(idx, 1);
+    saveAppData(); render('countries'); return;
+  }
+
   // ── Copy email ──
   var copyBtn = t.closest('.copy-email');
   if (copyBtn) {

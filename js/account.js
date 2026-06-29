@@ -316,11 +316,12 @@ function tabContacts(d) {
   return '<button class="btn btn-p" style="margin-bottom:16px" id="a-add-contact"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M8 3v10M3 8h10"/></svg>Add Contact</button>' +
     (d.contacts.length===0 ? '<div class="empty-box"><p>No contacts yet.</p></div>' :
       '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">' +
-        d.contacts.map(function(c) {
+        d.contacts.map(function(c, ci) {
           return '<div class="contact-card">' +
             '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">' +
               '<div style="width:36px;height:36px;border-radius:50%;background:var(--fo);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--nt);flex-shrink:0">' + ini(c.name) + '</div>' +
-              '<div><div style="font-size:13px;font-weight:600;color:var(--t1)">' + c.name + '</div><div style="font-size:11px;color:var(--t3)">' + c.title + '</div></div>' +
+              '<div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600;color:var(--t1)">' + c.name + '</div><div style="font-size:11px;color:var(--t3)">' + c.title + '</div></div>' +
+              '<button class="del-contact btn-sm" data-idx="' + ci + '" style="color:var(--rd);flex-shrink:0" title="Remove contact">✕</button>' +
             '</div>' +
             (c.email ? '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span style="font-size:12px;color:var(--cr)">' + c.email + '</span><button class="copy-email btn-sm" data-email="' + c.email + '" style="padding:1px 6px;font-size:10px">Copy</button></div>' : '') +
             (c.phone ? '<div style="font-size:12px;color:var(--t3)">' + c.phone + '</div>' : '') +
